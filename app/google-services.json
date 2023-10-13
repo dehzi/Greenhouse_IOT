@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "282968902003",
+    "firebase_url": "https://greenhousedb-7e6c7-default-rtdb.firebaseio.com",
+    "project_id": "greenhousedb-7e6c7",
+    "storage_bucket": "greenhousedb-7e6c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282968902003:android:f2a5c20e0d648ced6c9d06",
+        "android_client_info": {
+          "package_name": "com.example.greenhouse_iot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282968902003-aqimsblqt8r96hgohlb6c3qa1gmct5us.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkep2tywa4jVTrx8Fz9Xa_k6LXsn1_rG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282968902003-aqimsblqt8r96hgohlb6c3qa1gmct5us.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
