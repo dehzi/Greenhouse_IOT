@@ -1,4 +1,4 @@
 package com.example.greenhouse_iot
 
-data class Cont(val  On_Off : String? = null,
-                val  manual : String? = null)
+data class Cont(val  On_Off : Boolean? = null,
+                val  manual : Boolean? = null)

@@ -44,12 +44,16 @@ class Controls : AppCompatActivity() {
         database.child(control).get().addOnSuccessListener {
             if (it.exists()) {
                 val manual = it.child("manual").value
-                val manual2 = manual.toString()
+                val manual3 = manual.toString()
+                val manual2 = when (manual3) {
+                    "true" -> true
+                    else ->  false
 
+                }
                 myToggleButton.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
                         // ToggleButton is in the ON state
-                        val On_Off: String = "true"
+                        val On_Off: Boolean = true
                         //sending data to database
                         val Cont = Cont(On_Off, manual2)
                         database.child(control).setValue(Cont).addOnSuccessListener {
@@ -59,7 +63,7 @@ class Controls : AppCompatActivity() {
                         }
                     } else {
                         // ToggleButton is in the OFF state
-                        val On_Off: String = "false"
+                        val On_Off: Boolean = false
                         //sending data to database
                         val Cont = Cont(On_Off, manual2)
                         database.child(control).setValue(Cont).addOnSuccessListener {
@@ -80,11 +84,16 @@ class Controls : AppCompatActivity() {
         database.child(control).get().addOnSuccessListener {
             if (it.exists()) {
                 val manual = it.child("manual").value
-                val manual2 = manual.toString()
+                val manual3 = manual.toString()
+                val manual2 = when (manual3) {
+                    "true" -> true
+                    else ->  false
+
+                }
         myToggleButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 // ToggleButton is in the ON state
-                val On_Off: String = "true"
+                val On_Off: Boolean = true
                 //sending data to database
                 val Cont = Cont(On_Off,manual2)
                 database.child(control).setValue(Cont).addOnSuccessListener {
@@ -94,7 +103,7 @@ class Controls : AppCompatActivity() {
                 }
             } else {
                 // ToggleButton is in the OFF state
-                val On_Off: String = "false"
+                val On_Off: Boolean = false
                 //sending data to database
 
                 val Cont = Cont(On_Off,manual2)
@@ -116,11 +125,16 @@ class Controls : AppCompatActivity() {
         database.child(control).get().addOnSuccessListener {
             if (it.exists()) {
                 val manual = it.child("manual").value
-                val manual2 = manual.toString()
+                val manual3 = manual.toString()
+                val manual2 = when (manual3) {
+                    "true" -> true
+                    else ->  false
+
+                }
                 myToggleButton.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
                         // ToggleButton is in the ON state
-                        val On_Off: String = "true"
+                        val On_Off: Boolean = true
                         //sending data to database
 
                         val Cont = Cont(On_Off, manual2)
@@ -131,7 +145,7 @@ class Controls : AppCompatActivity() {
                         }
                     } else {
                         // ToggleButton is in the OFF state
-                        val On_Off: String = "false"
+                        val On_Off: Boolean = false
                         //sending data to database
                         val Cont = Cont(On_Off, manual2)
                         database.child(control).setValue(Cont).addOnSuccessListener {
@@ -152,11 +166,16 @@ class Controls : AppCompatActivity() {
         database.child(control).get().addOnSuccessListener {
             if (it.exists()) {
                 val manual = it.child("manual").value
-                val manual2 = manual.toString()
+                val manual3 = manual.toString()
+                val manual2 = when (manual3) {
+                    "true" -> true
+                    else ->  false
+
+                }
                 myToggleButton.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
                         // ToggleButton is in the ON state
-                        val On_Off: String = "true"
+                        val On_Off: Boolean = true
                         //sending data to database
 
                         val Cont = Cont(On_Off, manual2)
@@ -167,7 +186,7 @@ class Controls : AppCompatActivity() {
                         }
                     } else {
                         // ToggleButton is in the OFF state
-                        val On_Off: String = "false"
+                        val On_Off: Boolean = false
                         //sending data to database
                         val Cont = Cont(On_Off, manual2)
                         database.child(control).setValue(Cont).addOnSuccessListener {
@@ -181,3 +200,4 @@ class Controls : AppCompatActivity() {
         }
     }
 }
+
