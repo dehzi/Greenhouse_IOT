@@ -68,7 +68,7 @@ class Configure : AppCompatActivity() {
             if (minVal<maxVal) {
 
                 database = FirebaseDatabase.getInstance().getReference("Parameters")
-                val Param = Param(maxValue, minValue)
+                val Param = Param( minValue,maxValue)
                 database.child(Parameter).setValue(Param).addOnSuccessListener {
                     binding.minValue.text.clear()
                     binding.maxValue.text.clear()

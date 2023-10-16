@@ -94,7 +94,7 @@ class Controls : AppCompatActivity() {
                         }
                     }
                 }
-            }
+    }
 
 
 
