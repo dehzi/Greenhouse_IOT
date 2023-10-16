@@ -1,6 +1,6 @@
 package com.example.greenhouse_iot
 
-data class Param(val maxValue : String? = null,
-                 val minValue : String? = null){
+data class Param(val minValue : String? = null,
+                 val maxValue : String? = null){
 
 }
