@@ -42,34 +42,40 @@ class Controls : AppCompatActivity() {
         val myToggleButton = findViewById<ToggleButton>(R.id.toggleButtonWS)
         val myToggleButton2 = findViewById<ToggleButton>(R.id.tb_manWindow)
         database = FirebaseDatabase.getInstance().getReference("Manual Control")
+        database.child("Windows").get().addOnSuccessListener {
+            if (it.exists()) {
+                val manual = it.child("manual").value
 
 
 
+                    myToggleButton.setOnCheckedChangeListener { _, isChecked ->
+                        if (isChecked) {
+                            // ToggleButton is in the ON state
+                            val On_Off: Boolean = true
+                            //sending data to database
+                            val Cont = Cont(On_Off, manual = true)
+                            database.child(control).setValue(Cont).addOnSuccessListener {
+                                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT)
+                                    .show()
+                            }.addOnFailureListener {
+                                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                            }
 
-                myToggleButton.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        // ToggleButton is in the ON state
-                        val On_Off: Boolean = true
-                        //sending data to database
-                        val Cont = Cont(On_Off, manual=true)
-                        database.child(control).setValue(Cont).addOnSuccessListener {
-                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                        }.addOnFailureListener {
-                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // ToggleButton is in the OFF state
+                            val On_Off: Boolean = false
+                            //sending data to database
+                            val Cont = Cont(On_Off, manual = true)
+                            database.child(control).setValue(Cont).addOnSuccessListener {
+                                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT)
+                                    .show()
+                            }.addOnFailureListener {
+                                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                            }
                         }
 
-                    } else {
-                        // ToggleButton is in the OFF state
-                        val On_Off: Boolean = false
-                        //sending data to database
-                        val Cont = Cont(On_Off, manual=true)
-                        database.child(control).setValue(Cont).addOnSuccessListener {
-                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                        }.addOnFailureListener {
-                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                        }
                     }
-                }
+
 
                 myToggleButton2.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
@@ -94,6 +100,8 @@ class Controls : AppCompatActivity() {
                         }
                     }
                 }
+            }
+        }
     }
 
 
@@ -129,6 +137,8 @@ class Controls : AppCompatActivity() {
                         }
                     }
                 }
+
+
         myToggleButton2.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 // ToggleButton is in the ON state
@@ -152,7 +162,7 @@ class Controls : AppCompatActivity() {
                 }
             }
         }
-            }
+    }
 
 
 
