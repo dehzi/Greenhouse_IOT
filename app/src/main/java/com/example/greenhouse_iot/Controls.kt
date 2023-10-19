@@ -3,11 +3,16 @@ package com.example.greenhouse_iot
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.*
 import com.example.greenhouse_iot.databinding.ActivityConfigureBinding
 import com.example.greenhouse_iot.databinding.ActivityControlsBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.util.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class Controls : AppCompatActivity() {
     private lateinit var binding : ActivityControlsBinding
@@ -45,63 +50,74 @@ class Controls : AppCompatActivity() {
         database.child("Windows").get().addOnSuccessListener {
             if (it.exists()) {
                 val manual = it.child("manual").value
+                val manual2 = manual.toString()
+                val On_Off = it.child("on_Off").value
 
 
 
                     myToggleButton.setOnCheckedChangeListener { _, isChecked ->
                         if (isChecked) {
-                            // ToggleButton is in the ON state
                             val On_Off: Boolean = true
-                            //sending data to database
-                            val Cont = Cont(On_Off, manual = true)
-                            database.child(control).setValue(Cont).addOnSuccessListener {
-                                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT)
-                                    .show()
-                            }.addOnFailureListener {
-                                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                            }
+                            // ToggleButton is in the ON state
+                            val databaseReference = FirebaseDatabase.getInstance().getReference("Manual Control/Windows/on_Off")
+                            databaseReference.setValue(On_Off)
+                            myToggleButton.isEnabled = false
+                            Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                            val handler = Handler()
+
+                            handler.postDelayed({
+                                // Your action to be executed after the delay
+                                // This code block will run after the specified delayMillis
+                                myToggleButton.isEnabled = true
+                            }, 10000)
+
+
 
                         } else {
-                            // ToggleButton is in the OFF state
                             val On_Off: Boolean = false
-                            //sending data to database
-                            val Cont = Cont(On_Off, manual = true)
-                            database.child(control).setValue(Cont).addOnSuccessListener {
-                                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT)
-                                    .show()
-                            }.addOnFailureListener {
-                                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                            }
+                            // ToggleButton is in the ON state
+                            val databaseReference = FirebaseDatabase.getInstance().getReference("Manual Control/Windows/on_Off")
+                            databaseReference.setValue(On_Off)
+
+                            myToggleButton.isEnabled = false
+                            Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                            val handler = Handler()
+
+                            handler.postDelayed({
+                                // Your action to be executed after the delay
+                                // This code block will run after the specified delayMillis
+                                myToggleButton.isEnabled = true
+                            }, 10000)
+
+
                         }
 
                     }
+
 
 
                 myToggleButton2.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
-                        // ToggleButton is in the ON state
                         val manual: Boolean = true
-                        //sending data to database
-                        val Cont = Cont(On_Off = false, manual)
-                        database.child(control).setValue(Cont).addOnSuccessListener {
-                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                        }.addOnFailureListener {
-                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                        }
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance().getReference("Manual Control/Windows/manual")
+                        databaseReference.setValue(manual)
+                        myToggleButton.isEnabled = true
+                        Toast.makeText(this,"Manual activated",Toast.LENGTH_SHORT).show()
+
                     } else {
-                        // ToggleButton is in the OFF state
                         val manual: Boolean = false
-                        //sending data to database
-                        val Cont = Cont(On_Off = false, manual)
-                        database.child(control).setValue(Cont).addOnSuccessListener {
-                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                        }.addOnFailureListener {
-                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                        }
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance().getReference("Manual Control/Windows/manual")
+                        databaseReference.setValue(manual)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Manual deactivated",Toast.LENGTH_SHORT).show()
+
+                    }
                     }
                 }
             }
-        }
+
     }
 
 
@@ -112,58 +128,74 @@ class Controls : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().getReference("Manual Control")
         val myToggleButton2 = findViewById<ToggleButton>(R.id.tb_manWater)
 
+
+
                 myToggleButton.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
-                        // ToggleButton is in the ON state
                         val On_Off: Boolean = true
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Water Pump/on_Off")
+                        databaseReference.setValue(On_Off)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        val handler = Handler()
 
-                        //sending data to database
-                        val Cont = Cont(On_Off, manual=true)
-                        database.child(control).setValue(Cont).addOnSuccessListener {
-                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                        }.addOnFailureListener {
-                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                        }
+                        handler.postDelayed({
+                            // Your action to be executed after the delay
+                            // This code block will run after the specified delayMillis
+                            myToggleButton.isEnabled = true
+                            Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
+                        }, 10000)
+
+
                     } else {
-                        // ToggleButton is in the OFF state
                         val On_Off: Boolean = false
-                        //sending data to database
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Water Pump/on_Off")
+                        databaseReference.setValue(On_Off)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        val handler = Handler()
 
-                        val Cont = Cont(On_Off, manual=true)
-                        database.child(control).setValue(Cont).addOnSuccessListener {
-                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                        }.addOnFailureListener {
-                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                        }
+                        handler.postDelayed({
+                            // Your action to be executed after the delay
+                            // This code block will run after the specified delayMillis
+                            myToggleButton.isEnabled = true
+                            Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
+                        }, 10000)
+
+                    }
+
+                }
+
+
+                myToggleButton2.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        val manual: Boolean = true
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Water Pump/manual")
+                        databaseReference.setValue(manual)
+                        myToggleButton.isEnabled = true
+                        Toast.makeText(this,"Manual activated",Toast.LENGTH_SHORT).show()
+
+
+                    } else {
+                        val manual: Boolean = false
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Water Pump/manual")
+                        databaseReference.setValue(manual)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Manual deactivated",Toast.LENGTH_SHORT).show()
+
                     }
                 }
 
 
-        myToggleButton2.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                // ToggleButton is in the ON state
-                val manual: Boolean = true
-                //sending data to database
-                val Cont = Cont(On_Off = false, manual)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                // ToggleButton is in the OFF state
-                val manual: Boolean = false
-                //sending data to database
-                val Cont = Cont(On_Off = false, manual)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
     }
-
 
 
     private fun senddata3(control: String) {
@@ -171,54 +203,74 @@ class Controls : AppCompatActivity() {
         val myToggleButton = findViewById<ToggleButton>(R.id.toggleButtonSS)
         val myToggleButton2 = findViewById<ToggleButton>(R.id.tb_manShade)
         database = FirebaseDatabase.getInstance().getReference("Manual Control")
-        myToggleButton.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                // ToggleButton is in the ON state
-                val On_Off: Boolean = true
 
-                //sending data to database
-                val Cont = Cont(On_Off, manual=true)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                // ToggleButton is in the OFF state
-                val On_Off: Boolean = false
-                //sending data to database
 
-                val Cont = Cont(On_Off, manual=true)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+
+                myToggleButton.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        val On_Off: Boolean = true
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Blinds/on_Off")
+                        databaseReference.setValue(On_Off)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        val handler = Handler()
+
+                        handler.postDelayed({
+                            // Your action to be executed after the delay
+                            // This code block will run after the specified delayMillis
+                            myToggleButton.isEnabled = true
+                            Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
+                        }, 10000)
+
+
+                    } else {
+                        val On_Off: Boolean = false
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Blinds/on_Off")
+                        databaseReference.setValue(On_Off)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        val handler = Handler()
+
+                        handler.postDelayed({
+                            // Your action to be executed after the delay
+                            // This code block will run after the specified delayMillis
+                            myToggleButton.isEnabled = true
+                            Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
+                        }, 10000)
+
+                    }
+
                 }
-            }
-        }
-        myToggleButton2.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                // ToggleButton is in the ON state
-                val manual: Boolean = true
-                //sending data to database
-                val Cont = Cont(On_Off = false, manual)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+
+
+                myToggleButton2.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        val manual: Boolean = true
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Blinds/manual")
+                        databaseReference.setValue(manual)
+                        myToggleButton.isEnabled = true
+                        Toast.makeText(this,"Manual activated",Toast.LENGTH_SHORT).show()
+
+
+                    } else {
+                        val manual: Boolean = false
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Blinds/manual")
+                        databaseReference.setValue(manual)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Manual deactivated",Toast.LENGTH_SHORT).show()
+
+                    }
                 }
-            } else {
-                // ToggleButton is in the OFF state
-                val manual: Boolean = false
-                //sending data to database
-                val Cont = Cont(On_Off = false, manual)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+
+
     }
 
     private fun senddata4(control: String) {
@@ -226,54 +278,74 @@ class Controls : AppCompatActivity() {
         val myToggleButton = findViewById<ToggleButton>(R.id.toggleButtonPS)
         val myToggleButton2 = findViewById<ToggleButton>(R.id.tb_manPlot)
         database = FirebaseDatabase.getInstance().getReference("Manual Control")
-        myToggleButton.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                // ToggleButton is in the ON state
-                val On_Off: Boolean = true
 
-                //sending data to database
-                val Cont = Cont(On_Off, manual=true)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                // ToggleButton is in the OFF state
-                val On_Off: Boolean = false
-                //sending data to database
 
-                val Cont = Cont(On_Off, manual=true)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+
+                myToggleButton.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        val On_Off: Boolean = true
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Plots/on_Off")
+                        databaseReference.setValue(On_Off)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        val handler = Handler()
+
+                        handler.postDelayed({
+                            // Your action to be executed after the delay
+                            // This code block will run after the specified delayMillis
+                            myToggleButton.isEnabled = true
+                            Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
+                        }, 10000)
+
+
+                    } else {
+                        val On_Off: Boolean = false
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Plots/on_Off")
+                        databaseReference.setValue(On_Off)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        val handler = Handler()
+
+                        handler.postDelayed({
+                            // Your action to be executed after the delay
+                            // This code block will run after the specified delayMillis
+                            myToggleButton.isEnabled = true
+                            Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
+                        }, 10000)
+
+                    }
+
                 }
-            }
-        }
-        myToggleButton2.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                // ToggleButton is in the ON state
-                val manual: Boolean = true
-                //sending data to database
-                val Cont = Cont(On_Off = false, manual)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+
+
+                myToggleButton2.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        val manual: Boolean = true
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Plots/manual")
+                        databaseReference.setValue(manual)
+                        myToggleButton.isEnabled = true
+                        Toast.makeText(this,"Manual activated",Toast.LENGTH_SHORT).show()
+
+
+                    } else {
+                        val manual: Boolean = false
+                        // ToggleButton is in the ON state
+                        val databaseReference = FirebaseDatabase.getInstance()
+                            .getReference("Manual Control/Plots/manual")
+                        databaseReference.setValue(manual)
+                        myToggleButton.isEnabled = false
+                        Toast.makeText(this,"Manual deactivated",Toast.LENGTH_SHORT).show()
+
+                    }
                 }
-            } else {
-                // ToggleButton is in the OFF state
-                val manual: Boolean = false
-                //sending data to database
-                val Cont = Cont(On_Off = false, manual)
-                database.child(control).setValue(Cont).addOnSuccessListener {
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+
+
     }
 }
 

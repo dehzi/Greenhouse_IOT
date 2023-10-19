@@ -52,8 +52,9 @@ class Configure : AppCompatActivity() {
             startActivity(intent1)
         }
 
+
         //sending data to database
-        binding.saveBtn.setOnClickListener{
+        binding.saveBtn.setOnClickListener {
 
             val minValue = binding.minValue.text.toString()
             val maxValue = binding.maxValue.text.toString()
@@ -62,77 +63,105 @@ class Configure : AppCompatActivity() {
             val spinner: Spinner = findViewById(R.id.spnr_parameter)
             val Parameter = spinner.selectedItem.toString()
 
-            val minVal = minValue.toInt()
-            val maxVal = maxValue.toInt()
-
-            if (minVal<maxVal) {
-
-                database = FirebaseDatabase.getInstance().getReference("Parameters")
-                val Param = Param( minValue,maxValue)
-                database.child(Parameter).setValue(Param).addOnSuccessListener {
-                    binding.minValue.text.clear()
-                    binding.maxValue.text.clear()
 
 
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+            updateData(Parameter, minValue, maxValue)
 
-                }.addOnFailureListener {
-
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-
-                }
-            }else{
-                Toast.makeText(this, "minValue must be lower than maxValue", Toast.LENGTH_SHORT).show()
-            }
 
         }
-
-
 
 
         //sending data to database
         binding.resetBtn.setOnClickListener{
-            database = FirebaseDatabase.getInstance().getReference("Parameters")
-            //temperature
-            val minValue: String = "15"
-            val maxValue : String = "30"
-            //Humidity
-            val minValue2: String = "40"
-            val maxValue2 : String = "60"
-            //Soil Moisture
-            val minValue3: String = "50"
-            val maxValue3 : String = "75"
-            //Water Level
-            val minValue4: String = "0"
-            val maxValue4 : String = "5"
-            //wind speed
-            val minValue5: String = "0"
-            val maxValue5 : String = "30"
 
-                val Param = Param( minValue,maxValue)
-                database.child("Temperature").setValue(Param).addOnSuccessListener {
-                    val Param1 = Param( minValue2,maxValue2)
-                    database.child("Humidity").setValue(Param1)
-                    val Param2 = Param( minValue3,maxValue3)
-                    database.child("Soil Moisture").setValue(Param2)
-                    val Param3 = Param( minValue4,maxValue4)
-                    database.child("Water Level").setValue(Param3)
-                    val Param4 = Param( minValue5,maxValue5)
-                    database.child("Wind Speed").setValue(Param4)
+            //parameter
+            //val Parameter = binding.Parameters.text.toString()
+            val spinner: Spinner = findViewById(R.id.spnr_parameter)
+            val parameter = spinner.selectedItem.toString()
+
+            updateData2(parameter)
+
 
                     binding.minValue.text.clear()
                     binding.maxValue.text.clear()
 
 
-                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-
-                }.addOnFailureListener {
-
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-
-                }
-
 
         }
+        }
+
+
+
+
+    private fun updateData(parameter: String, minValue: String, maxValue: String) {
+        val minVal = minValue.toInt()
+        val maxVal = maxValue.toInt()
+
+        if (minVal<maxVal) {
+
+                val databaseReference = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/minValue")
+                databaseReference.setValue(minValue)
+                val databaseReference2 = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/maxValue")
+                databaseReference2.setValue(maxValue)
+                binding.minValue.text.clear()
+                binding.maxValue.text.clear()
+                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+
+
+        }else{
+            Toast.makeText(this, "minValue must be lower than maxValue", Toast.LENGTH_SHORT).show()
         }
     }
+    private fun updateData2(parameter: String) {
+        if (parameter=="Temperature"){
+        //temperature
+        val minValue: String = "15"
+        val maxValue : String = "30"
+            val databaseReference = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/minValue")
+            databaseReference.setValue(minValue)
+            val databaseReference2 = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/maxValue")
+            databaseReference2.setValue(maxValue)
+        }else if (parameter=="Humidity") {
+            //Humidity
+            val minValue: String = "40"
+            val maxValue: String = "60"
+            val databaseReference = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/minValue")
+            databaseReference.setValue(minValue)
+            val databaseReference2 = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/maxValue")
+            databaseReference2.setValue(maxValue)
+        }else if(parameter=="Soil Moisture") {
+            //Soil Moisture
+            val minValue: String = "50"
+            val maxValue: String = "75"
+            val databaseReference = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/minValue")
+            databaseReference.setValue(minValue)
+            val databaseReference2 = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/maxValue")
+            databaseReference2.setValue(maxValue)
+        }else if(parameter=="Water Level") {
+            //Water Level
+            val minValue: String = "0"
+            val maxValue: String = "5"
+            val databaseReference = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/minValue")
+            databaseReference.setValue(minValue)
+            val databaseReference2 = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/maxValue")
+            databaseReference2.setValue(maxValue)
+        }else if(parameter=="Wind Speed"){
+        //wind speed
+        val minValue: String = "0"
+        val maxValue : String = "30"
+            val databaseReference = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/minValue")
+            databaseReference.setValue(minValue)
+            val databaseReference2 = FirebaseDatabase.getInstance().getReference("Parameters/"+parameter+"/maxValue")
+            databaseReference2.setValue(maxValue)
+        }
+
+
+
+            binding.minValue.text.clear()
+            binding.maxValue.text.clear()
+            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+
+
+        }
+    }
+
