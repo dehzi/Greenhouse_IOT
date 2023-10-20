@@ -62,7 +62,7 @@ class Controls : AppCompatActivity() {
                             val databaseReference = FirebaseDatabase.getInstance().getReference("Manual Control/Windows/on_Off")
                             databaseReference.setValue(On_Off)
                             myToggleButton.isEnabled = false
-                            Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,"Activated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
                             val handler = Handler()
 
                             handler.postDelayed({
@@ -80,7 +80,7 @@ class Controls : AppCompatActivity() {
                             databaseReference.setValue(On_Off)
 
                             myToggleButton.isEnabled = false
-                            Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,"Deactivated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
                             val handler = Handler()
 
                             handler.postDelayed({
@@ -138,7 +138,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Water Pump/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Activated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
@@ -156,7 +156,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Water Pump/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Deactivated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
@@ -214,7 +214,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Blinds/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Activated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
@@ -232,7 +232,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Blinds/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Deactivated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
@@ -289,7 +289,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Plots/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Activated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
@@ -307,7 +307,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Plots/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Deactivated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
