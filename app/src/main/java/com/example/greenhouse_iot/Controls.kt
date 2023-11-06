@@ -7,8 +7,7 @@ import android.os.Handler
 import android.widget.*
 import com.example.greenhouse_iot.databinding.ActivityConfigureBinding
 import com.example.greenhouse_iot.databinding.ActivityControlsBinding
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import java.util.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.GlobalScope
@@ -47,13 +46,41 @@ class Controls : AppCompatActivity() {
         val myToggleButton = findViewById<ToggleButton>(R.id.toggleButtonWS)
         val myToggleButton2 = findViewById<ToggleButton>(R.id.tb_manWindow)
         database = FirebaseDatabase.getInstance().getReference("Manual Control")
-        database.child("Windows").get().addOnSuccessListener {
-            if (it.exists()) {
-                val manual = it.child("manual").value
-                val manual2 = manual.toString()
-                val On_Off = it.child("on_Off").value
+        val manual1 = FirebaseDatabase.getInstance().getReference("Manual Control/Windows/manual")
+        val onoff = FirebaseDatabase.getInstance().getReference("Manual Control/Windows/on_Off")
+        manual1.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called when data changes in the specified path.
+                // You can retrieve the value using dataSnapshot.getValue()
 
+                val value = dataSnapshot.getValue(Boolean::class.java) // Assuming it's a boolean value
 
+                // Now, 'value' contains the retrieved value from the database
+                // Update the ToggleButton state accordingly
+                myToggleButton2.isChecked = value ?: false // If value is null, default to false
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors that may occur while retrieving data
+            }
+        })
+
+        onoff.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called when data changes in the specified path.
+                // You can retrieve the value using dataSnapshot.getValue()
+
+                val value = dataSnapshot.getValue(Boolean::class.java) // Assuming it's a boolean value
+
+                // Now, 'value' contains the retrieved value from the database
+                // Update the ToggleButton state accordingly
+                myToggleButton.isChecked = value ?: false // If value is null, default to false
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors that may occur while retrieving data
+            }
+        })
 
                     myToggleButton.setOnCheckedChangeListener { _, isChecked ->
                         if (isChecked) {
@@ -62,14 +89,14 @@ class Controls : AppCompatActivity() {
                             val databaseReference = FirebaseDatabase.getInstance().getReference("Manual Control/Windows/on_Off")
                             databaseReference.setValue(On_Off)
                             myToggleButton.isEnabled = false
-                            Toast.makeText(this,"Activated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,"Activated. Wait 11 seconds",Toast.LENGTH_SHORT).show()
                             val handler = Handler()
 
                             handler.postDelayed({
                                 // Your action to be executed after the delay
                                 // This code block will run after the specified delayMillis
                                 myToggleButton.isEnabled = true
-                            }, 10000)
+                            }, 11000)
 
 
 
@@ -80,19 +107,20 @@ class Controls : AppCompatActivity() {
                             databaseReference.setValue(On_Off)
 
                             myToggleButton.isEnabled = false
-                            Toast.makeText(this,"Deactivated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,"Deactivated. Wait 11 seconds",Toast.LENGTH_SHORT).show()
                             val handler = Handler()
 
                             handler.postDelayed({
                                 // Your action to be executed after the delay
                                 // This code block will run after the specified delayMillis
                                 myToggleButton.isEnabled = true
-                            }, 10000)
+                            }, 11000)
 
 
                         }
 
                     }
+
 
 
 
@@ -116,9 +144,9 @@ class Controls : AppCompatActivity() {
                     }
                     }
                 }
-            }
 
-    }
+
+
 
 
 
@@ -127,8 +155,41 @@ class Controls : AppCompatActivity() {
         val myToggleButton = findViewById<ToggleButton>(R.id.toggleButtonW)
         database = FirebaseDatabase.getInstance().getReference("Manual Control")
         val myToggleButton2 = findViewById<ToggleButton>(R.id.tb_manWater)
+        val manual1 = FirebaseDatabase.getInstance().getReference("Manual Control/Water Pump/manual")
+        val onoff = FirebaseDatabase.getInstance().getReference("Manual Control/Water Pump/on_Off")
+        manual1.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called when data changes in the specified path.
+                // You can retrieve the value using dataSnapshot.getValue()
 
+                val value = dataSnapshot.getValue(Boolean::class.java) // Assuming it's a boolean value
 
+                // Now, 'value' contains the retrieved value from the database
+                // Update the ToggleButton state accordingly
+                myToggleButton2.isChecked = value ?: false // If value is null, default to false
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors that may occur while retrieving data
+            }
+        })
+
+        onoff.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called when data changes in the specified path.
+                // You can retrieve the value using dataSnapshot.getValue()
+
+                val value = dataSnapshot.getValue(Boolean::class.java) // Assuming it's a boolean value
+
+                // Now, 'value' contains the retrieved value from the database
+                // Update the ToggleButton state accordingly
+                myToggleButton.isChecked = value ?: false // If value is null, default to false
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors that may occur while retrieving data
+            }
+        })
 
                 myToggleButton.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
@@ -137,16 +198,8 @@ class Controls : AppCompatActivity() {
                         val databaseReference = FirebaseDatabase.getInstance()
                             .getReference("Manual Control/Water Pump/on_Off")
                         databaseReference.setValue(On_Off)
-                        myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Activated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
-                        val handler = Handler()
+                        Toast.makeText(this,"Activated.",Toast.LENGTH_SHORT).show()
 
-                        handler.postDelayed({
-                            // Your action to be executed after the delay
-                            // This code block will run after the specified delayMillis
-                            myToggleButton.isEnabled = true
-                            Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
-                        }, 10000)
 
 
                     } else {
@@ -155,16 +208,9 @@ class Controls : AppCompatActivity() {
                         val databaseReference = FirebaseDatabase.getInstance()
                             .getReference("Manual Control/Water Pump/on_Off")
                         databaseReference.setValue(On_Off)
-                        myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Deactivated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
-                        val handler = Handler()
 
-                        handler.postDelayed({
-                            // Your action to be executed after the delay
-                            // This code block will run after the specified delayMillis
-                            myToggleButton.isEnabled = true
-                            Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
-                        }, 10000)
+                        Toast.makeText(this,"Deactivated.",Toast.LENGTH_SHORT).show()
+
 
                     }
 
@@ -203,7 +249,41 @@ class Controls : AppCompatActivity() {
         val myToggleButton = findViewById<ToggleButton>(R.id.toggleButtonSS)
         val myToggleButton2 = findViewById<ToggleButton>(R.id.tb_manShade)
         database = FirebaseDatabase.getInstance().getReference("Manual Control")
+        val manual1 = FirebaseDatabase.getInstance().getReference("Manual Control/Blinds/manual")
+        val onoff = FirebaseDatabase.getInstance().getReference("Manual Control/Blinds/on_Off")
+        manual1.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called when data changes in the specified path.
+                // You can retrieve the value using dataSnapshot.getValue()
 
+                val value = dataSnapshot.getValue(Boolean::class.java) // Assuming it's a boolean value
+
+                // Now, 'value' contains the retrieved value from the database
+                // Update the ToggleButton state accordingly
+                myToggleButton2.isChecked = value ?: false // If value is null, default to false
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors that may occur while retrieving data
+            }
+        })
+
+        onoff.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called when data changes in the specified path.
+                // You can retrieve the value using dataSnapshot.getValue()
+
+                val value = dataSnapshot.getValue(Boolean::class.java) // Assuming it's a boolean value
+
+                // Now, 'value' contains the retrieved value from the database
+                // Update the ToggleButton state accordingly
+                myToggleButton.isChecked = value ?: false // If value is null, default to false
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors that may occur while retrieving data
+            }
+        })
 
 
                 myToggleButton.setOnCheckedChangeListener { _, isChecked ->
@@ -214,7 +294,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Blinds/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Activated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Activated. Wait 3 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
@@ -222,7 +302,7 @@ class Controls : AppCompatActivity() {
                             // This code block will run after the specified delayMillis
                             myToggleButton.isEnabled = true
                             Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
-                        }, 10000)
+                        }, 3000)
 
 
                     } else {
@@ -232,7 +312,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Blinds/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Deactivated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Deactivated. Wait 3 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
@@ -240,7 +320,7 @@ class Controls : AppCompatActivity() {
                             // This code block will run after the specified delayMillis
                             myToggleButton.isEnabled = true
                             Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
-                        }, 10000)
+                        }, 3000)
 
                     }
 
@@ -278,7 +358,41 @@ class Controls : AppCompatActivity() {
         val myToggleButton = findViewById<ToggleButton>(R.id.toggleButtonPS)
         val myToggleButton2 = findViewById<ToggleButton>(R.id.tb_manPlot)
         database = FirebaseDatabase.getInstance().getReference("Manual Control")
+        val manual1 = FirebaseDatabase.getInstance().getReference("Manual Control/Plots/manual")
+        val onoff = FirebaseDatabase.getInstance().getReference("Manual Control/Plots/on_Off")
+        manual1.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called when data changes in the specified path.
+                // You can retrieve the value using dataSnapshot.getValue()
 
+                val value = dataSnapshot.getValue(Boolean::class.java) // Assuming it's a boolean value
+
+                // Now, 'value' contains the retrieved value from the database
+                // Update the ToggleButton state accordingly
+                myToggleButton2.isChecked = value ?: false // If value is null, default to false
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors that may occur while retrieving data
+            }
+        })
+
+        onoff.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called when data changes in the specified path.
+                // You can retrieve the value using dataSnapshot.getValue()
+
+                val value = dataSnapshot.getValue(Boolean::class.java) // Assuming it's a boolean value
+
+                // Now, 'value' contains the retrieved value from the database
+                // Update the ToggleButton state accordingly
+                myToggleButton.isChecked = value ?: false // If value is null, default to false
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors that may occur while retrieving data
+            }
+        })
 
 
                 myToggleButton.setOnCheckedChangeListener { _, isChecked ->
@@ -289,7 +403,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Plots/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Activated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Activated. Wait 15 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
@@ -297,7 +411,7 @@ class Controls : AppCompatActivity() {
                             // This code block will run after the specified delayMillis
                             myToggleButton.isEnabled = true
                             Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
-                        }, 10000)
+                        }, 15000)
 
 
                     } else {
@@ -307,7 +421,7 @@ class Controls : AppCompatActivity() {
                             .getReference("Manual Control/Plots/on_Off")
                         databaseReference.setValue(On_Off)
                         myToggleButton.isEnabled = false
-                        Toast.makeText(this,"Deactivated. Wait 10 seconds",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Deactivated. Wait 15 seconds",Toast.LENGTH_SHORT).show()
                         val handler = Handler()
 
                         handler.postDelayed({
@@ -315,7 +429,7 @@ class Controls : AppCompatActivity() {
                             // This code block will run after the specified delayMillis
                             myToggleButton.isEnabled = true
                             Toast.makeText(this,"Done",Toast.LENGTH_SHORT).show()
-                        }, 10000)
+                        }, 15000)
 
                     }
 

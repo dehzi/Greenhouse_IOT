@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // Schedule the task to run every 1 minute
-        timer.scheduleAtFixedRate(task, 0, 30000) // 0 milliseconds delay, 5-minute interval
+        timer.scheduleAtFixedRate(task, 0, 500) // 0 milliseconds delay, 5-minute interval
 
 
 
@@ -90,7 +90,6 @@ class MainActivity : AppCompatActivity() {
             val Motion = it.child("Water Level").value
             val WindSpeed = it.child("Wind Speed").value
 
-            Toast.makeText(this,"Update Success",Toast.LENGTH_SHORT).show()
 
             binding.textTemp.text = Temperature.toString()
             binding.textHumid.text = Humidity.toString()
